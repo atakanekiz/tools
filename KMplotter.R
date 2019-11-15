@@ -6,6 +6,7 @@ KMplotter <- function(dat,   # data frame containing samples in rows, genes/grou
                       categorization_val = NULL, # user can provide a numerical value to binarize gene expression value
                       grouping_var = NULL, # categorical variable that can divide the samples into subgroups (e.g. immune vs keratin subtype)
                       remove_groups = NULL, # discard groups within the grouping_var column that you want to omit (eg MITF low)
+                      plot_title = NULL,
                       ... # arguments to pass to ggsurvplot
 ){
   
@@ -79,6 +80,7 @@ KMplotter <- function(dat,   # data frame containing samples in rows, genes/grou
         
   }
   
+  if(is.null(plot_title)) plot_title <- feature
   
   sfit <- surv_fit(formula, dat)
   logrank_p <- surv_pvalue(sfit)$pval
@@ -86,7 +88,7 @@ KMplotter <- function(dat,   # data frame containing samples in rows, genes/grou
   ggsurvplot(sfit, pval = T, censor.shape = "|", legend.title = "Categories",
              caption = n_caption,
              font.caption=c(10, "bold.italic", "gray40"), ...)+
-    labs(title = feature)
+    labs(title = plot_title)
   
   
 }
