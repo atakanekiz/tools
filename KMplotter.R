@@ -63,7 +63,7 @@ KMplotter <- function(dat,   # data frame containing samples in rows, genes/grou
   
   if(!is.null(grouping_var)){
     
-    formula <- as.formula(paste0("Surv(", time_var, vital_var, ")~",feature,"+", grouping_var))
+    formula <- as.formula(paste0("Surv(", time_var, ",", vital_var, ")~",feature,"+", grouping_var))
     
     n_caption <- data.frame(table(dat[, grouping_var], dat[, feature]))
     
@@ -74,7 +74,7 @@ KMplotter <- function(dat,   # data frame containing samples in rows, genes/grou
     
   } else {
     
-    formula <- as.formula(paste0("Surv(", time_var, vital_var, ")~", feature))
+    formula <- as.formula(paste0("Surv(", time_var, ",", vital_var, ")~", feature))
     
     n_caption <- summary(dat[, feature])
     
