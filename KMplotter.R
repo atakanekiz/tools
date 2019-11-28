@@ -1,6 +1,8 @@
 # Create the KMplotter function to speed up plotting
 KMplotter <- function(dat,   # data frame containing samples in rows, genes/grouping variables in columns
                       feature, # gene or variable to plot survival for
+                      time_var = "days_to_event", # name of the column containing time variables
+                      vital_var = "vital" , # name of the column containing vital status (0, 1)
                       top_cutoff = 0.5, # choose top percent of the gene expression (quantile)
                       bottom_cutoff = 0.5, # choose bottom percent of gene expression (quantile)
                       categorization_val = NULL, # user can provide a numerical value to binarize gene expression value
@@ -61,7 +63,7 @@ KMplotter <- function(dat,   # data frame containing samples in rows, genes/grou
   
   if(!is.null(grouping_var)){
     
-    formula <- as.formula(paste0("Surv(days_to_event, vital_status)~",feature,"+", grouping_var))
+    formula <- as.formula(paste0("Surv(", time_var, vital_var, ")~",feature,"+", grouping_var))
     
     n_caption <- data.frame(table(dat[, grouping_var], dat[, feature]))
     
@@ -72,7 +74,7 @@ KMplotter <- function(dat,   # data frame containing samples in rows, genes/grou
     
   } else {
     
-    formula <- as.formula(paste0("Surv(days_to_event, vital_status)~",feature))
+    formula <- as.formula(paste0("Surv(", time_var, vital_var, ")~", feature))
     
     n_caption <- summary(dat[, feature])
     
