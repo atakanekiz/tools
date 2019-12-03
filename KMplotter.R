@@ -3,6 +3,7 @@ KMplotter <- function(dat,   # data frame containing samples in rows, genes/grou
                       feature, # gene or variable to plot survival for
                       time_var = "days_to_event", # name of the column containing time variables
                       vital_var = "vital" , # name of the column containing vital status (0, 1)
+                      pval = T, # show pval on plot
                       top_cutoff = 0.5, # choose top percent of the gene expression (quantile)
                       bottom_cutoff = 0.5, # choose bottom percent of gene expression (quantile)
                       categorization_val = NULL, # user can provide a numerical value to binarize gene expression value
@@ -78,16 +79,18 @@ KMplotter <- function(dat,   # data frame containing samples in rows, genes/grou
     
     n_caption <- summary(dat[, feature])
     
-    n_caption <- paste0(names(n_caption), ":", n_caption, collapse = " ")
+    # n_caption <- paste0(names(n_caption), ":", n_caption, collapse = " ")
+    
+    n_caption <- paste(n_caption, collapse = "")
         
   }
   
   if(is.null(plot_title)) plot_title <- feature
-  
+
   sfit <- surv_fit(formula, dat)
   logrank_p <- surv_pvalue(sfit)$pval
   
-  ggsurvplot(sfit, pval = T, censor.shape = "|", legend.title = "Categories",
+  ggsurvplot(sfit, pval = pval, censor.shape = "|", legend.title = "Categories",
              caption = n_caption,
              font.caption=c(10, "bold.italic", "gray40"), ...)+
     labs(title = plot_title)
