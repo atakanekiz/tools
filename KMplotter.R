@@ -79,9 +79,9 @@ KMplotter <- function(dat,   # data frame containing samples in rows, genes/grou
     
     n_caption <- summary(dat[, feature])
     
-    # n_caption <- paste0(names(n_caption), ":", n_caption, collapse = " ")
+    n_caption <- paste0(names(n_caption), ":", n_caption, collapse = " ")
     
-    n_caption <- paste(n_caption, collapse = "")
+    # n_caption <- paste(n_caption, collapse = "")
         
   }
   
